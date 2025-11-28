@@ -150,9 +150,7 @@ public:
     void leaderboardState() {
         leaderboardOpen = (!leaderboardOpen);
         if (leaderboardOpen) {
-            cout << "open";
         } else {
-            cout << "off";
         }
     }
 };

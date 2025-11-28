@@ -310,7 +310,7 @@ int main() {
     std::chrono::high_resolution_clock::time_point pauseStart;
 
     bool isPaused = false;
-
+    bool isLeaderOpen = false;
     while (gameWindow.isOpen()) {
          // check all the window's events that were triggered since the last iteration of the loop
          while (const std::optional event = gameWindow.pollEvent())
@@ -347,23 +347,13 @@ int main() {
                                  isPaused = false;
                                  cout << "Resumed" << endl;
                              }
+                             // converts all to empty tiles when leaderboard is open
                          } else if (leaderboardSprite.getGlobalBounds().contains(click)) {
                              for (Tile &currTile : tiles) {
                                  currTile.leaderboardState();
                              }
-                             if (isPaused == false) {
-                                 isPaused = true;
-                                 pauseStart = chrono::high_resolution_clock::now();
-                                 cout << "Paused" << endl;
-                             } else {
-                                 auto resumeTime = chrono::high_resolution_clock::now();
-                                 auto pauseDuration = chrono::duration_cast<chrono::seconds>(resumeTime - pauseStart);
-                                 totalPauseTime += pauseDuration;
-                                 isPaused = false;
-                                 cout << "Resumed" << endl;
-                             }
                          }
-                         if (!isPaused) {
+                         if (!isPaused && !isLeaderOpen) {
                              // debug handler
                              if (debugSprite.getGlobalBounds().contains(click)){
                                  for (int i = 0; i < tiles.size(); i++) {
